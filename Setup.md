@@ -109,3 +109,4 @@ systemctl restart network
 - net.ipv6.conf.default.disable_ipv6 = 1
 - net.ipv6.conf.lo.disable_ipv6 = 1  
 load with sudo sysctl -p  
+remove :: from /etc/hosts  
