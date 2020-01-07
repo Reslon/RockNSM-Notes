@@ -22,7 +22,7 @@ Modify Drive Setup
 - Go back in, configure manual partition then select auto Setup
 - Reduce /swap, add /var, /var/log, /tmp.
 - Create volumes for KAFKA, SURICATA, ElasticSearch, Stenographer, and FSF  
-- Create a user, leave root blank
+- Create a user, mark as admin, leave root blank
 
 ## Layout
 Sensor  
