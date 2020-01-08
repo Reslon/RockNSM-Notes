@@ -1,6 +1,6 @@
 [local-base]
 name=local-base
-baseurl=http://192.168.2.110/base/
+baseurl=http://remrepo/base/
 enabled=1
 gpgcheck=0
 

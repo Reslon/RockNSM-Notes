@@ -67,7 +67,7 @@ Repotrack is a tool that performs a similar function, with a flag to designate t
 `repotrack -a ARCH -p /pwd packages`  
 
 ## Creating Repo
-Once the rpms have been setup in the local repo spot, use the tool `createrep`  
+Once the rpms have been setup in the local repo spot, use the tool `createrepo`  
 This tool will create the needed database so that yum know how to handle them.
 `yum install createrepo`  
 Create the databse file to make the local repo usable in the simplest form.  
@@ -87,7 +87,7 @@ This will create a new file to make the server to serve the repo we're making.
 server {
   listen 8008;
   location / {
-   root /srv/repos;
+   root /home/repos;
    autoindex on;
    index index.html index.htm;
   }
@@ -103,7 +103,7 @@ firewall-cmd --reload
 ```
 These commands allow remote access to the repo on port 8008  
 Then use the following to allow SELinux to alow the hosted content  
-`chcon -R -u system_u -t httpd_sys_content_t /repos`  
+`chcon -R -u system_u -t httpd_sys_content_t /home/repos`  
 
 Start the server setup on the laptop with nginx  
 ```
