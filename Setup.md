@@ -110,20 +110,3 @@ systemctl restart network
 - net.ipv6.conf.lo.disable_ipv6 = 1  
 load with sudo sysctl -p  
 remove :: from /etc/hosts  
-
-###Firewall Configuration
-
-#### open / allow traffic  
-sudo firewall-cmd --zone=public --add-ports=####/tcp --permanent  
-sudo firewall-cmd --reload
-
-#### close / deny traffic  
-sudo firewall-cmd --zone=public --remove-port=####/tcp --permanent  
-sudo firewall-cmd --reload
-
-####commit all running firewall rules into the startup rules  
-sudo firewall-cmd --runtime-to-permanent  
-
-#### list all firewalld zones  
-sudo firewall-cmd --list-all-zones  
-sudo firewall-cmd --list-ports  

@@ -31,3 +31,26 @@ router - serperation -> subinterface
 ```
 - best practices
  - Match VLAN anConfigd subinterface
+
+###Firewall Configuration
+
+#### open / allow traffic  
+sudo firewall-cmd --zone=public --add-ports=####/tcp --permanent  
+sudo firewall-cmd --reload
+
+#### close / deny traffic  
+sudo firewall-cmd --zone=public --remove-port=####/tcp --permanent  
+sudo firewall-cmd --reload
+
+####commit all running firewall rules into the startup rules  
+sudo firewall-cmd --runtime-to-permanent  
+
+#### list all firewalld zones  
+sudo firewall-cmd --list-all-zones  
+sudo firewall-cmd --list-ports  
+
+### Sockets  
+##### What is a Socket  
+- IP / port / protocol defined to provide a connection / service  
+- ss is the new hotness
+- ss -int : shows all listening sockets 
