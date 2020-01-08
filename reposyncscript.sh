@@ -16,7 +16,7 @@ do
 	    end
 	    ;;
 	  *)
-	    reposync -l --repoid=$OUTPUT --download_path=/srv/repos/ --newest-only --downloadcomps --download-metadata
+	    reposync -l --repoid=$OUTPUT --download_path=/home/repos/ --newest-only --downloadcomps --download-metadata
 	    ;;
 	esac
 done
