@@ -97,3 +97,33 @@ server {
   }
 }
 ```
+```
+firewall-cmd --add-port=8008/tcp --permanent
+firewall-cmd --reload
+```
+These commands allow remote access to the repo on port 8008  
+Then use the following to allow SELinux to alow the hosted content  
+`chcon -R -u system_u -t httpd_sys_content_t /repos`  
+
+Start the server setup on the laptop with nginx  
+```
+systemctl start nginx  -- On the laptop
+curl <dns name>:8008   -- On the sensor
+```
+
+Configure /etc/nginx/conf.d/proxy.conf to skip having to include the port.  
+
+```
+server {
+  listen 80;
+  server_name repo perched-reop repo.perched.io perched-repo.perched.io
+
+  proxy_max_temp_file_size 0;
+
+  location / {
+    proxy_set_header X-Real_IP $remote_addr;
+    proxy_set_header Host $http_host;
+    proxy_pass http://127.0.0.1:8008;
+  }
+}
+```
