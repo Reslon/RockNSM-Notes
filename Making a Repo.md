@@ -73,3 +73,27 @@ This tool will create the needed database so that yum know how to handle them.
 Create the databse file to make the local repo usable in the simplest form.  
 `createrepo /repo/<name>`  
 If we want to inclulde the groups/comps we need to pass it the flag and name of the comps
+
+`createrepo local-base/`  
+
+### Making the Repo accessible
+
+Create a web listener  
+
+`vi /etc/nginx/conf.d/repo.conf`  
+This will create a new file to make the server to serve the repo we're making.  
+
+```
+server {
+  listen 8008;
+  location / {
+   root /srv/repos;
+   autoindex on;
+   index index.html index.htm;
+  }
+  error_page 500 502 503 504 /50x.html;
+  location = /50x.html{
+    root /usr/share/nginx/html;
+  }
+}
+```
