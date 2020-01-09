@@ -1,60 +1,60 @@
 [local-base]
 name=local-base
-baseurl=http://remrepo/base/
+baseurl=http://remrepo/local-base/
 enabled=1
 gpgcheck=0
 
 [local-rocknsm-2.5]
 name=local-rocknsm-2.5
-baseurl=http://192.168.2.110/rocknsm_2_5/
+baseurl=http://remrepo/local-rocknsm-2.5/
 enabled=1
 gpgcheck=0
 
 [local-elasticsearch-7.x]
 name=local-elasticsearch-7.x
-baseurl=http://192.168.2.110/elasticsearch-7.x/
+baseurl=http://remrepo/local-elasticsearch-7.x/
 enabled=1
 gpgcheck=0
 
 [local-epel]
 name=local-epel
-baseurl=http://192.168.2.110/epel/
+baseurl=http://remrepo/local-epel/
 enabled=1
 gpgcheck=0
 
 [local-extras]
 name=local-extras
-baseurl=http://192.168.2.110/extras/
+baseurl=http://remrepo/local-extras/
 enabled=1
 gpgcheck=0
 
 [local-updates]
 name=local-updates
-baseurl=http://192.168.2.110/updates/
+baseurl=http://remrepo/local-updates/
 enabled=1
 gpgcheck=0
 
 [local-zerotier]
 name=local-zerotier
-baseurl=http://192.168.2.110/zerotier/
+baseurl=http://remrepo/local-zerotier/
 enabled=1
 gpgcheck=0
 
 [local-virtualbox]
 name=local-updates
-baseurl=http://192.168.2.110/virtualbox/
+baseurl=http://remrepo/local-virtualbox/
 enabled=1
 gpgcheck=0
 
 [local-WANdisco-git]
 name=local-WANdisco-git
-baseurl=http://192.168.2.110/WANdisco-git/
+baseurl=http://remrepo/local-WANdisco-git/
 enabled=1
 gpgcheck=0
 
 
 [localstuff]
 name=localstuff
-baseurl=http://192.168.2.110/localstuff/
+baseurl=http://remrepo/localstuff/
 enabled=1
 gpgcheck=0
