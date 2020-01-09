@@ -11,7 +11,10 @@ ip: x.x.x.x
 
 Make modification ifcfg DNS1 172.
 
-`sudo systemctl restart network` to restart the network  
+`sudo systemctl restart network` to restart the network
+
+### Setup SSH
+
 
 ### Setting up Google Stenographer
 1. Run `sudo yum install Stenographer`  
@@ -44,12 +47,12 @@ Config files will be stored in /etc/stenographer
 6. After verifying stenographer runs, stop the service.
 7. Using ethtool running the following set of commands to ensure as much information is pulled on each packet as possible.
 ```
-ethtool -K <interface> tso off gro off lro off gso off rx off tx off sg off rxvlan off txvlan off
-ethtool -N <interface> rx-flow-hash udp4 sdfn
-ethtool -N <interface> rx-flow-hash udp6 sdfn
-ethtool -C <interface> adaptive-rx off
-ethtool -C <interface> rx-usecs 1000
-ethtool -G <interface> rx 4096
+ethtool -K enp0s31f6 tso off gro off lro off gso off rx off tx off sg off rxvlan off txvlan off
+ethtool -N enp0s31f6 rx-flow-hash udp4 sdfn
+ethtool -N enp0s31f6 rx-flow-hash udp6 sdfn
+ethtool -C enp0s31f6 adaptive-rx off
+ethtool -C enp0s31f6 rx-usecs 1000
+ethtool -G enp0s31f6 rx 4096
 ```
 - Noted errors on lab build: lro, udp, and adaptive failed.  
 - Simple script

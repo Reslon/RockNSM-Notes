@@ -67,3 +67,9 @@ SW : 10.0.0.1
 PFSense :10.0.10.1 <> 172.16.10.1  
 Sensor : 172.16.10.100  
 Subnet: /24  
+
+## Partitions
+- Split things into their own Logic volumes
+- Assign space as required by each part of rocknsm
+- /var, /tmp, /var/log
+- Verify logical volumes are set to the right drives
