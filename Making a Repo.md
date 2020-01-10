@@ -127,3 +127,5 @@ server {
   }
 }
 ```
+
+In the event of a reboot, restored with the line `/home/srv /srv none bind 0 0 ` in /etc/fstab

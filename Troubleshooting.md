@@ -8,3 +8,8 @@
 - Double check pwd
 - ensure ownership is incorrectly
 - Verify `which stenotype` pwd
+
+#Zeek
+- Doublecheck spelling and lines for proper Information
+- read errors given by check, and diag
+- use cleanup all when issues causes changes to files to fix issues 
