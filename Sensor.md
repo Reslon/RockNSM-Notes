@@ -46,6 +46,7 @@ Config files will be stored in /etc/stenographer
 - Packets are written to pwd/thread0/packets/directory.
 6. After verifying stenographer runs, stop the service.
 7. Using ethtool running the following set of commands to ensure as much information is pulled on each packet as possible.
+
 ```
 ethtool -K enp0s31f6 tso off gro off lro off gso off rx off tx off sg off rxvlan off txvlan off
 ethtool -N enp0s31f6 rx-flow-hash udp4 sdfn
@@ -54,8 +55,10 @@ ethtool -C enp0s31f6 adaptive-rx off
 ethtool -C enp0s31f6 rx-usecs 1000
 ethtool -G enp0s31f6 rx 4096
 ```
+
 - Noted errors on lab build: lro, udp, and adaptive failed.  
 - Simple script
+
 ```
 #!/bin/bash
 
@@ -70,6 +73,7 @@ do
   ethtool -G $var rx 4096
 done
 ```
+
 ### Suricata install
 1. Install suricata with `yum install suricata`
 2. Check `tcpdump -i <interface>` to make sure traffic is flowing on interface.
@@ -91,10 +95,10 @@ zeek-plugin-kafka
 These are packaged together in the lab, so `yum install zeek` will get them all, but in production each may be required to be installed individually.  
 1. Begin with `yum install zeek`  
 2. The config file location depends on the RPM installed, `/etc/zeek` or `opt/zeek/etc`.
-- networks.cfg is used to tell zeek what the local trusted IP space using CIDR notation.
-- zeekctl.cfg tells zeek what directory to log to, and how to log/what to use. Add `lb_custom.InterfacePrefix=af_packet::` to this file.
-- node.cfg list out the nodes zeek has access to and interface they're on. If not running standalone, comment out lines 8-11 and set clustered configuration lines.
- - `pin_cpus` to pin specific cpus, `lb_method` and `lb_proc` to set load balance methods and processes, `env_vars=fanout_id=[x>50]`
+ - networks.cfg is used to tell zeek what the local trusted IP space using CIDR notation.
+ - zeekctl.cfg tells zeek what directory to log to, and how to log/what to use. Add `lb_custom.InterfacePrefix=af_packet::` to this file.
+ - node.cfg list out the nodes zeek has access to and interface they're on. If not running standalone, comment out lines 8-11 and set clustered configuration lines.
+    - `pin_cpus` to pin specific cpus, `lb_method` and `lb_proc` to set load balance methods and processes, `env_vars=fanout_id=[x>50]`
 3. Move to /usr/share/zeek/site and modify the local.zeek by enbling protocol logging, and adding  
 ```
 #@load script/json.zeek
@@ -116,4 +120,20 @@ redef LogAscii::json_timestamps = JSON::TS_ISO8601;
 ```
 7. Run zeekctl check next to verify scripts are okay and ready for deployment. Fix any errors
 8. Run zeekctl deploy.
-9.
+
+### Verify setup so far
+1. Verify Stenographer, Suricata, and zeek are running
+2. Check /data/<service> to verify data is being logged.
+3.
+
+### FSF
+1. Pull FSF onto the sensor, via the required methods. For lab, `yum install fsf` will pull all the required dependencies.
+2. Open the config.py file in /opt/fsf/fsf-server/conf and make the following changes:
+ - LOG_PATH changed to the directory for Logs
+ - YARA_PATH to the rules folder at /var/lib/yara-rules/rules.yara
+ - EXPORT_PATH if moving file archives to a storage location
+ - Change SERVER_CONFIG socket to sensor IP.
+3. Open the config.py in /opt/fsf/fsf-client/conf and make the following changes:
+ - Changes SERVER_CONFIG to sensor IP
+4. Create the directories outlined in server config.py if needed.
+5. Use chown to make the /data/fsf/* files owned by fsf user.
