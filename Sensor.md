@@ -129,7 +129,7 @@ redef LogAscii::json_timestamps = JSON::TS_ISO8601;
 ### FSF
 1. Pull FSF onto the sensor, via the required methods. For lab, `yum install fsf` will pull all the required dependencies.
 2. Open the config.py file in /opt/fsf/fsf-server/conf and make the following changes:
- - LOG_PATH changed to the directory for Logs
+ - LOG_PATH changed to the directory for Logs, Python list format
  - YARA_PATH to the rules folder at /var/lib/yara-rules/rules.yara
  - EXPORT_PATH if moving file archives to a storage location
  - Change SERVER_CONFIG socket to sensor IP.
@@ -137,3 +137,27 @@ redef LogAscii::json_timestamps = JSON::TS_ISO8601;
  - Changes SERVER_CONFIG to sensor IP
 4. Create the directories outlined in server config.py if needed.
 5. Use chown to make the /data/fsf/* files owned by fsf user.
+
+### Kafka Installation
+#### Zookeeper notes
+- There are things called topics, which can be considered harddrives.
+- One can be made for each program Kafka is talking to. These can be further partitioned down to specific machines
+- Can be split up among thousands of partitions, multiple partitions can be placed on a machine.  
+- Replicated drives will not be on a machine that has that drive.
+
+1. Install zookeeper and kafka with yum
+2. Modify `etc/zookeeper/zoo.cfg` if running multi node.  
+3. Start zookeeper with systemctl, then enable it so it will start on reboot.
+4. Modify the /etc/kafka/server.properties with the following  
+```
+31: Add IP of Sensor
+36: Uncomment line, add IP of Sensor
+60: Add in directory paths for Logs
+65: If building out clustered partitions, enter the number of them.
+103: Determine length of time logs are kept
+107: Determine amount of data kept
+123: If remote zookeeper, update this line with where the zookeeper is.
+```  
+5. Use chown on /data/kafka to give kafka user rights to the partition folder if not done yet.
+6. Start the kafka with systemctl.
+7.
