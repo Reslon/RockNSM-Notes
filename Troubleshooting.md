@@ -21,3 +21,7 @@
 - Ensure accuracy of spelling
  - inputs, not input
  - If previous things are inproperly programmed, will impact filebeat
+
+# kibana
+- Verify firewall is Open
+- Verify host address in yml file.

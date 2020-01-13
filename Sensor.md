@@ -220,3 +220,29 @@ output.kafka:
 
 4. Start filebeat with systemctl, verify the topics appear in the kafka directory.  
 5.
+
+### Install elasticsearch
+1. Run `yum install elasticsearch`
+2. Open the `/etc/elasticsearch/elasticsearch.yml`  
+```  
+see elasticsearch.yml
+```  
+3. Modify ram size in jmv.yml
+4. Create the elasticsearch.service.d directory in /etc/systemd/system/
+5. Create override.conf in the elasticsearch.service.d directory. Places the following lines:  
+```  
+[Service]
+LimitMEMLOCK=infinity
+```
+
+6. Set ownership of partition folders to elasticsearch.  
+7. Allow elasticsearch through the firewall, default ports are 9200 and 9300 tcp.
+8. Start elasticsearch with systemctl
+9. curl <addr>:9200 will verify if it is running. `/_cat` added to the end will show additional options to check on elasticsearch  
+
+### Installing Kibana
+1. Install kibana with yum.
+2. Modify `vi /etc/kibana/kibana.yml`
+3. Set server.hosts and elasticsearch.hosts
+4. Open port 5601 in the firewall
+5. Check if the webpage is available.

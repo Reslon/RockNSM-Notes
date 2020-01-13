@@ -49,8 +49,11 @@ sudo firewall-cmd --runtime-to-permanent
 sudo firewall-cmd --list-all-zones  
 sudo firewall-cmd --list-ports  
 
+#### ports
+firewall-cmd --add-port=<port>/<type> --permanent
+
 ### Sockets  
 ##### What is a Socket  
 - IP / port / protocol defined to provide a connection / service  
 - ss is the new hotness
-- ss -int : shows all listening sockets 
+- ss -int : shows all listening sockets
