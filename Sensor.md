@@ -82,6 +82,8 @@ done
 5. Set the interface for suricata to read with at `/etc/sysconfig/suricata` from the default to `--af-packet=eth1 --user suricata`
 - Config overrides.yaml at this time to make changes simpler, and then tag the override.yaml at the top of the configuration files.
 - When managing threads and processors, can use `sudo cat /proc/cpuinfo | egrep -e 'processor|physical id|core id' | xargs -l3`
+6. Run chown to make /data/suricata owned by suricata.
+7. Start suricata
 
 ### Zeek Installation
 Contains
@@ -160,4 +162,61 @@ redef LogAscii::json_timestamps = JSON::TS_ISO8601;
 ```  
 5. Use chown on /data/kafka to give kafka user rights to the partition folder if not done yet.
 6. Start the kafka with systemctl.
-7.
+#### Kafka scripts
+- `/usr/share/kafka/bin/kafka-topics.sh --list --bootstrap-server 172.16.10.100:9092` will list out the topics that kafka can see.
+-
+
+### Installing Filebeat
+1. run `yum install filebeat` to pull and install the rpm for filebeat if not done already.
+- Cannot mutate informtion, but can add tags to it as it processes information.
+- Tagging can be controlled/modified
+2. Modify filebeat.yml
+```  
+24: Set logs to true  
+28: Set the path to the location of the logs.  
+For lab, /data/suricata/eve.json, /data/fsf/logs/rockout.log  
+```  
+
+An easier and smarter way is to use prospector, as follows:  
+
+```
+filebeat.input:
+  - type: log
+    paths:
+      - /data/suricata/eve.json
+    json.keys_under_root: true
+    fields:
+      kafka_topic: suricata-raw
+    fields_under_root: true
+  - type: log
+    paths:
+      - /data/fsf/logs/rockout.log
+    json.keys_under_root: true
+    fields:
+      kafka_topic: fsf-raw
+    fields_under_root: true
+processors:
+  - decode_json_fields:
+    fields:
+      - message
+      - Scan Time
+      - Filename
+      - objects
+      - Source
+      - Meta
+      - Alert
+      - Summary
+    process_array: true
+    max_depth: 10
+  ```  
+
+3. Under Outputs around line 140, comment out the elasticsearch and add a kafka section. Then add the following:  
+
+```
+output.kafka:
+  hosts: ["172.16.10.100:9092"]
+  topic: '%{[fields.kafka_topic]}
+  ```  
+
+4. Start filebeat with systemctl, verify the topics appear in the kafka directory.  
+5.
