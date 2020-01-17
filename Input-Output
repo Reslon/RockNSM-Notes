@@ -1,0 +1,62 @@
+input {
+  kafka {
+    add_field => { "[@metadata][stage]" => "zeek-raw" }
+    topics => ["zeek-raw"]
+    bootstrap_servers => "172.16.10.100:9092"
+    # Set this to one per kafka partition to scale up
+    # consumer_threads => 4
+    group_id => "bro_logstash"
+    codec => json
+    auto_offset_reset => "earliest"
+  }
+}
+input {
+  kafka {
+    add_field => { "[@metadata][stage]" => "suricata-raw" }
+    topics => ["suricata-raw"]
+    bootstrap_servers => "172.16.10.100:9092"
+    group_id => "suricata_logstash"
+    codec => json
+    auto_offset_reset => "earliest"
+  }
+}
+input {
+  kafka {
+    add_field => { "[@metadata][stage]" => "fsf-raw" }
+    topics => ["fsf-raw"]
+    bootstrap_servers => "172.16.10.100:9092"
+    group_id => "fsf_logstash"
+    codec => json
+    auto_offset_reset => "earliest"
+  }
+}
+
+output {
+  if [@metadata][stage] == "fsf-raw" {
+    elasticsearch {
+    hosts => ["172.16.10.100:9200"]
+    index => "fsf-%{+YYYY.MM.dd}"
+    #template => "/etc/logstash/fsf-index-template.json"
+  }
+ }
+}
+
+output {
+  if [@metadata][stage] == "suricata-raw" {
+    elasticsearch {
+    hosts => ["172.16.10.100:9200"]
+    index => "suricata-%{+YYYY.MM.dd}"
+    #template => "/etc/logstash/suricata-index-template.json"
+  }
+ }
+}
+
+output {
+  if [@metadata][stage] == "zeek-raw" {
+    elasticsearch {
+    hosts => ["172.16.10.100:9200"]
+    index => "zeek-%{+YYYY.MM.dd}"
+    template => "/etc/logstash/bro-index-template.json"
+  }
+ }
+}
